@@ -1,47 +1,85 @@
+import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
+import Link from 'next/link';
 import Image from 'next/image';
-import styles from '../styles/Home.module.scss';
 import Header from '../components/header';
 import Country from '../components/country';
-import { CountryType } from '../types/types';
-import Link from 'next/link';
+import CountryType from '../types/CountryType';
+import styles from '../styles/Home.module.scss';
+import axios from 'axios';
+import crypto from 'crypto';
 
-// https://restcountries.com/v3.1/all
-// https://restcountries.com/v3.1/name/peru
+/* export async function getServerSideProps(context: { params: { name: string; region: string } }) {
+  const url =
+    context.params.region !== 'None'
+      ? `https://restcountries.com/v3.1/region/${context.params.region}`
+      : context.params.name !== ''
+      ? `https://restcountries.com/v3.1/name/${context.params.name}`
+      : 'https://restcountries.com/v3.1/all';
+  const res = await axios.get(url);
+  const countries: CountryType = await res.data;
+  return { props: { countries } };
+} */
 
-function guidGenerator() {
-  var S4 = function () {
-    return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+export default function Home(/* { countries } */) {
+  const [countries, setCountries] = useState<CountryType[]>([]);
+  const [region, setRegion] = useState<string>('None');
+  const [query, setQuery] = useState<string>('');
+  const [name, setName] = useState<string>('');
+
+  useEffect(() => {
+    const getData = async () => {
+      const url =
+        region !== 'None'
+          ? `https://restcountries.com/v3.1/region/${region}`
+          : name !== ''
+          ? `https://restcountries.com/v3.1/name/${name}`
+          : 'https://restcountries.com/v3.1/all';
+      const res = await axios.get(url);
+      const countryData: CountryType[] = await res.data;
+      setCountries(countryData);
+    };
+    getData();
+  }, [region, name]);
+
+  const search = () => {
+    const query: string = (document.querySelector('#name') as HTMLInputElement).value;
+    setName(query);
   };
-  return S4() + S4() + '-' + S4() + '-' + S4() + '-' + S4() + '-' + S4() + S4() + S4();
-}
 
-export async function getServerSideProps() {
-  const res = await fetch('https://restcountries.com/v3.1/all');
-  const allCountryData = await res.json();
-  return {
-    props: { allCountryData },
-  };
-}
-
-export default function Home({ allCountryData }) {
   return (
-    <div>
+    <main className={styles.main}>
       <Head>
         <title>Where in the world?</title>
       </Head>
       <Header />
-      <input type='text' name='name' id='name' placeholder='Search for a country' />
-      <div className={styles.grid}>
-        {allCountryData.map((country) => {
-          const id: string = country.name.official;
+      <div className={styles.filters}>
+        <div>
+          <input type='text' name='name' id='name' placeholder='Search for a country' />
+          <button onClick={() => search()}>Search</button>
+        </div>
+        <div className={styles.dropdown}>
+          <span>Filter by region: {region}</span>
+          <div className={styles.dropdownContent}>
+            <div onClick={() => setRegion('Africa')}>Africa</div>
+            <div onClick={() => setRegion('America')}>America</div>
+            <div onClick={() => setRegion('Europe')}>Europe</div>
+            <div onClick={() => setRegion('Asia')}>Asia</div>
+            <div onClick={() => setRegion('Oceania')}>Oceania</div>
+            <div onClick={() => setRegion('None')}>None</div>
+          </div>
+        </div>
+      </div>
+      <div className={styles.cardGrid}>
+        {countries.map((country: CountryType) => {
+          const key = crypto.randomBytes(20).toString('hex');
           return (
-            <>
-              <Country data={country} id={id} />
-            </>
+            <React.Fragment key={key}>
+              <Country data={country} />
+            </React.Fragment>
           );
         })}
       </div>
-    </div>
+    </main>
   );
 }
