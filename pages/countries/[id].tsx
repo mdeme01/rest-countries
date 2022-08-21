@@ -5,21 +5,23 @@ import CountryType from '../../types/CountryType';
 import axios from 'axios';
 
 export async function getServerSideProps(context: { params: { id: string } }) {
-  const res = await axios.get(`https://restcountries.com/v3.1/name/${context.params.id}`);
+  const res = await axios.get(`https://restcountries.com/v3.1/alpha/${context.params.id}`);
   const data: CountryType[] = await res.data;
-  const countryData: CountryType = data[0];
-  return { props: { countryData } };
+  const country: CountryType = data[0];
+  return { props: { country } };
 }
 
-export default function CountryDetails({ countryData }) {
+export default function CountryDetails({ country }: { country: CountryType }) {
+  const router = useRouter();
+
   return (
     <div>
-      <Image width='300' height='150' src={countryData.flags.png} alt='flag' />
-      <div>{countryData.name.official}</div>
-      <div>Population: {countryData.population}</div>
-      <div>Region: {countryData.region}</div>
-      <div>Capital: {countryData.capital}</div>
-      <Link href='/'>Back to home</Link>
+      <Image width='300' height='150' src={country.flags.png} alt='flag' />
+      <div>{country.name.official}</div>
+      <div>Population: {country.population}</div>
+      <div>Region: {country.region}</div>
+      <div>Capital: {country.capital}</div>
+      <button onClick={() => router.back()}>Back</button>
     </div>
   );
 }

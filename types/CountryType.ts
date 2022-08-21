@@ -3,6 +3,7 @@ type CountryType = {
     common: string;
     official: string;
   };
+  cca2: string;
   flags: {
     png: string;
   };
