@@ -10,6 +10,7 @@ type CountryType = {
   population: string;
   region: string;
   capital: string;
+  borders: string[];
 };
 
 export default CountryType;
