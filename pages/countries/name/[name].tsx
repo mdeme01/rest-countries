@@ -1,37 +1,55 @@
 import axios from 'axios';
 import React from 'react';
-import { useEffect, useState } from 'react';
 import Country from '../../../components/Country';
 import CountryType from '../../../types/CountryType';
 import styles from '../../../styles/Home.module.scss';
 import { useRouter } from 'next/router';
 
-export async function getServerSideProps(context: { params: { name: string } }) {
+type PropsType = {
+  countries: CountryType[];
+  name: string;
+};
+
+type ContextType = {
+  params: {
+    name: string;
+  };
+};
+
+export async function getServerSideProps(context: ContextType) {
   const name = context.params.name;
   const res = await axios.get(`https://restcountries.com/v3.1/name/${name}`);
   const countries: CountryType[] = await res.data;
   return { props: { countries, name } };
 }
 
-export default function CountriesByName({ countries, name }: { countries: CountryType[]; name: string }) {
+export default function CountriesByName({ countries, name }: PropsType) {
   const router = useRouter();
 
   const filterRegion = (region: string) => {
-    const url = region === 'None' ? '/countries' : `/countries/region/${region}`;
+    const url =
+      region === 'None' ? '/countries' : `/countries/region/${region}`;
     router.push(url);
   };
 
   const search = () => {
-    const query: string = (document.querySelector('#name') as HTMLInputElement).value;
+    const query: string = (document.querySelector('#name') as HTMLInputElement)
+      .value;
     const url = query === '' ? '/countries' : `/countries/name/${query}`;
     router.push(url);
   };
 
   return (
-    <>
+    <main>
       <div className={styles.filters}>
         <div>
-          <input type='text' name='name' id='name' placeholder='Search for a country' defaultValue={name ?? ''} />
+          <input
+            type="text"
+            name="name"
+            id="name"
+            placeholder="Search for a country"
+            defaultValue={name ?? ''}
+          />
           <button onClick={() => search()}>Search</button>
         </div>
         <div className={styles.dropdown}>
@@ -55,6 +73,6 @@ export default function CountriesByName({ countries, name }: { countries: Countr
           );
         })}
       </div>
-    </>
+    </main>
   );
 }

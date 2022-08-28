@@ -1,39 +1,46 @@
-import React, { useEffect, useState } from 'react';
-import Head from 'next/head';
-import Link from 'next/link';
-import Image from 'next/image';
+import React from 'react';
 import Country from '../../components/Country';
 import CountryType from '../../types/CountryType';
 import styles from '../../styles/Home.module.scss';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 
+type PropsType = {
+  countries: CountryType[];
+};
+
 export async function getServerSideProps() {
-  const url = 'https://restcountries.com/v3.1/all';
-  const res = await axios.get(url);
+  const res = await axios.get('https://restcountries.com/v3.1/all');
   const countries: CountryType[] = await res.data;
   return { props: { countries } };
 }
 
-export default function Countries({ countries }: { countries: CountryType[] }) {
+export default function Countries({ countries }: PropsType) {
   const router = useRouter();
 
   const filterRegion = (region: string) => {
-    const url = region === 'None' ? '/countries' : `/countries/region/${region}`;
+    const url =
+      region === 'None' ? '/countries' : `/countries/region/${region}`;
     router.push(url);
   };
 
   const search = () => {
-    const query: string = (document.querySelector('#name') as HTMLInputElement).value;
+    const query: string = (document.querySelector('#name') as HTMLInputElement)
+      .value;
     const url = query === '' ? '/countries' : `/countries/name/${query}`;
     router.push(url);
   };
 
   return (
-    <>
+    <main>
       <div className={styles.filters}>
         <div>
-          <input type='text' name='name' id='name' placeholder='Search for a country' />
+          <input
+            type="text"
+            name="name"
+            id="name"
+            placeholder="Search for a country"
+          />
           <button onClick={() => search()}>Search</button>
         </div>
         <div className={styles.dropdown}>
@@ -57,6 +64,6 @@ export default function Countries({ countries }: { countries: CountryType[] }) {
           );
         })}
       </div>
-    </>
+    </main>
   );
 }
