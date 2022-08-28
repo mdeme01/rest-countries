@@ -37,6 +37,8 @@ export async function getServerSideProps(context: ContextType) {
     );
   }
 
+  console.log(country);
+
   return { props: { country, borderCountries } };
 }
 
@@ -58,7 +60,12 @@ export default function CountryDetails({
       <div>Region: {country.region}</div>
       <div>Sub Region: {country.subregion}</div>
       <div>Capital: {country.capital}</div>
-      <div>Top level domain: {country.tld[0]}</div>
+      <div>
+        Top level domain:{' '}
+        {country.tld !== undefined
+          ? country.tld[0]
+          : `.${country.cca2.toLowerCase()}`}
+      </div>
       <div>
         Currencies:{' '}
         {Object.values(country.currencies).map((currency, i) => {
