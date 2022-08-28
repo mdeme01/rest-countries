@@ -1,0 +1,36 @@
+// # Front-end Style Guide
+
+// ## Layout
+
+// The designs were created to the following widths:
+
+// - Mobile: 375px
+// - Desktop: 1440px
+
+// Colors
+$darkBlue: 'hsl(209, 23%, 22%)'; // dark mode elements
+$veryDarkBlueBG: 'hsl(207, 26%, 17%)'; // dark mode background
+$veryDarkBlueFG: 'hsl(200, 15%, 8%)'; // light mode text
+$darkGray: 'hsl(0, 0%, 52%)'; // light mode input
+$veryLightGray: 'hsl(0, 0%, 98%)'; // light mode background
+$white: 'hsl(0, 0%, 100%)'; // dark mode text & light mode elements
+
+// Typography
+$homePageFontSize: '14px';
+$detailPageFontSize: '16px';
+
+// Fonts
+$fontFamily: 'Nunito Sans', sans-serif; // https://fonts.google.com/specimen/Nunito+Sans
+$weightLight: 300;
+$weightSemiBold: 600;
+$weightExtraBold: 800;
+
+// ## Icons
+
+// For the icons, you can use a font icon library. Don't worry if the icons that you choose don't look exactly like they do on the design.
+
+// Some suggestions can be found below:
+
+// - [Font Awesome](https://fontawesome.com)
+// - [IcoMoon](https://icomoon.io)
+// - [Ionicons](https://ionicons.com)
