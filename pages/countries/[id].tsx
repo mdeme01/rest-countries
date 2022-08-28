@@ -90,7 +90,7 @@ export default function CountryDetails({
             })
           : 'None'}
       </div>
-      <button onClick={() => router.push('/countries')}>Back</button>
+      <button onClick={() => router.back()}>Back</button>
     </main>
   );
 }
