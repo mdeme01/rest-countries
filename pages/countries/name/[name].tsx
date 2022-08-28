@@ -65,13 +65,15 @@ export default function CountriesByName({ countries, name }: PropsType) {
         </div>
       </div>
       <div className={styles.cardGrid}>
-        {countries.map((country: CountryType) => {
-          return (
-            <React.Fragment key={country.cca2}>
-              <Country data={country} />
-            </React.Fragment>
-          );
-        })}
+        {countries
+          .sort((a, b) => a.name.official.localeCompare(b.name.official))
+          .map((country: CountryType) => {
+            return (
+              <React.Fragment key={country.cca2}>
+                <Country data={country} />
+              </React.Fragment>
+            );
+          })}
       </div>
     </main>
   );

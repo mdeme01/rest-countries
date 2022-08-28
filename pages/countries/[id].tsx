@@ -37,8 +37,6 @@ export async function getServerSideProps(context: ContextType) {
     );
   }
 
-  console.log(country);
-
   return { props: { country, borderCountries } };
 }
 
@@ -53,7 +51,7 @@ export default function CountryDetails({
       <Image width="300" height="150" src={country.flags.png} alt="flag" />
       <h2>{country.name.common}</h2>
       <div>
-        Native name:{' '}
+        Native Name:{' '}
         {Object.values(country.name.nativeName).reverse()[0].common}
       </div>
       <div>Population: {country.population}</div>
@@ -61,40 +59,46 @@ export default function CountryDetails({
       <div>Sub Region: {country.subregion}</div>
       <div>Capital: {country.capital}</div>
       <div>
-        Top level domain:{' '}
+        Top Level Domain:{' '}
         {country.tld !== undefined
           ? country.tld[0]
           : `.${country.cca2.toLowerCase()}`}
       </div>
       <div>
         Currencies:{' '}
-        {Object.values(country.currencies).map((currency, i) => {
-          return i === Object.values(country.currencies).length - 1
-            ? currency.name + ' '
-            : currency.name + ', ';
-        })}
+        {Object.values(country.currencies)
+          .sort()
+          .map((currency, i) => {
+            return i === Object.values(country.currencies).length - 1
+              ? currency.name + ' '
+              : currency.name + ', ';
+          })}
       </div>
       <div>
         Languages:{' '}
-        {Object.values(country.languages).map((language, i) => {
-          return i === Object.values(country.languages).length - 1
-            ? language + ' '
-            : language + ', ';
-        })}
+        {Object.values(country.languages)
+          .sort()
+          .map((language, i) => {
+            return i === Object.values(country.languages).length - 1
+              ? language + ' '
+              : language + ', ';
+          })}
       </div>
       <div>Border Countries:</div>
       <div>
         {borderCountries.length !== 0
-          ? borderCountries.map((country: CountryType) => {
-              return (
-                <button
-                  key={country.cca2}
-                  onClick={() => router.push(`/countries/${country.cca2}`)}
-                >
-                  {country.name.common}
-                </button>
-              );
-            })
+          ? borderCountries
+              .sort((a, b) => a.name.common.localeCompare(b.name.common))
+              .map((country: CountryType) => {
+                return (
+                  <button
+                    key={country.cca2}
+                    onClick={() => router.push(`/countries/${country.cca2}`)}
+                  >
+                    {country.name.common}
+                  </button>
+                );
+              })
           : 'None'}
       </div>
       <button onClick={() => router.back()}>Back</button>
