@@ -10,7 +10,7 @@ export default function Layout({ children }) {
         <title>Where in the world?</title>
       </Head>
       <Header />
-      <main className={styles.main}>{children}</main>
+      <main>{children}</main>
       <Footer />
     </>
   );

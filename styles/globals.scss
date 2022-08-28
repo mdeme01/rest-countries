@@ -4,8 +4,9 @@
 html,
 body {
   padding: 0;
-  margin: 2rem;
+  margin: 1rem 0 1rem 1rem;
   font-family: $fontFamily;
+  font-size: $homePageFontSize;
 }
 
 a {
@@ -15,4 +16,8 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+h2 {
+  font-size: 20px;
 }

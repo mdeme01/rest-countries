@@ -35,18 +35,3 @@
 .dropdown:hover .dropdownContent {
   display: grid;
 }
-
-.cardGrid {
-  margin-top: 2rem;
-  display: grid;
-  gap: 1rem;
-  grid-template-columns: repeat(auto-fill, 300px);
-}
-
-.cardLink {
-  color: unset;
-  text-decoration: none;
-  padding: 30px;
-  border: 1px solid black;
-  border-radius: 25px;
-}

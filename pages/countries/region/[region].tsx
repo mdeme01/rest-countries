@@ -4,6 +4,7 @@ import Country from '../../../components/Country';
 import CountryType from '../../../types/CountryType';
 import styles from '../../../styles/Home.module.scss';
 import { useRouter } from 'next/router';
+import { CardGrid } from '../../../components/StyledComponents';
 
 type PropsType = {
   countries: CountryType[];
@@ -65,7 +66,7 @@ export default function CountriesByRegion({ countries, region }: PropsType) {
           </div>
         </div>
       </div>
-      <div className={styles.cardGrid}>
+      <CardGrid>
         {countries
           .sort((a, b) => a.name.official.localeCompare(b.name.official))
           .map((country: CountryType) => {
@@ -75,7 +76,7 @@ export default function CountriesByRegion({ countries, region }: PropsType) {
               </React.Fragment>
             );
           })}
-      </div>
+      </CardGrid>
     </main>
   );
 }
