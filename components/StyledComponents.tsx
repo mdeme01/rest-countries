@@ -1,10 +1,27 @@
 import styled from '@emotion/styled';
 
+export const CustomHeader = styled('header')({
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  margin: '10px 80px 50px 80px',
+});
+
+export const ThemeButton = styled('button')({
+  backgroundColor: 'unset',
+  border: 'none',
+  cursor: 'pointer',
+  display: 'grid',
+  gridTemplateColumns: 'repeat(2, 1fr)',
+  placeContent: 'center',
+});
+
 export const CardGrid = styled('div')({
   display: 'grid',
-  gap: '1rem',
+  gap: '3rem',
   gridTemplateColumns: 'repeat(auto-fill, 320px)',
   marginTop: '2rem',
+  placeContent: 'center',
 });
 
 export const CardLink = styled('a')({

@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { FormEvent, useState } from 'react';
 import Country from '../../components/Country';
 import CountryType from '../../types/CountryType';
 import styles from '../../styles/Home.module.scss';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import { CardGrid } from '../../components/StyledComponents';
+import SearchIcon from '@mui/icons-material/Search';
+import { IconButton, InputAdornment, TextField } from '@mui/material';
 
 type PropsType = {
   countries: CountryType[];
@@ -19,15 +21,16 @@ export async function getServerSideProps() {
 export default function Countries({ countries }: PropsType) {
   const router = useRouter();
 
+  const [query, setQuery] = useState<string>('');
+
   const filterRegion = (region: string) => {
     const url =
       region === 'None' ? '/countries' : `/countries/region/${region}`;
     router.push(url);
   };
 
-  const search = () => {
-    const query: string = (document.querySelector('#name') as HTMLInputElement)
-      .value;
+  const search = (e: FormEvent) => {
+    e.preventDefault();
     const url = query === '' ? '/countries' : `/countries/name/${query}`;
     router.push(url);
   };
@@ -36,13 +39,21 @@ export default function Countries({ countries }: PropsType) {
     <main>
       <div className={styles.filters}>
         <div>
-          <input
-            type="text"
-            name="name"
-            id="name"
-            placeholder="Search for a country"
-          />
-          <button onClick={() => search()}>Search</button>
+          <form onSubmit={(e) => search(e)}>
+            <TextField
+              placeholder="Search for a country..."
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <IconButton>
+                      <SearchIcon onClick={(e) => search(e)} />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+              onChange={(e) => setQuery(e.target.value)}
+            />
+          </form>
         </div>
         <div className={styles.dropdown}>
           <span>Filter by region: {'None'}</span>

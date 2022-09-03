@@ -1,7 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;600;800&display=swap');
 @import './variables.scss';
 
-html,
 body {
   padding: 0;
   margin: 1rem 0 1rem 1rem;
@@ -20,4 +19,13 @@ a {
 
 h2 {
   font-size: 20px;
+}
+
+header > button > div,
+header > button > svg {
+  place-self: center;
+}
+
+main {
+  margin: 0 80px;
 }
