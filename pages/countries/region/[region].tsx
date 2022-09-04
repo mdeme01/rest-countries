@@ -54,8 +54,8 @@ export default function CountriesByRegion({ countries, region }: PropsType) {
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
-                  <IconButton>
-                    <SearchIcon onClick={(e) => search(e)} />
+                  <IconButton onClick={(e) => search(e)}>
+                    <SearchIcon />
                   </IconButton>
                 </InputAdornment>
               ),
