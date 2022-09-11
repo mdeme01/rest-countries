@@ -9,7 +9,7 @@ export default function Layout({ children }) {
       <Head>
         <title>Where in the world?</title>
       </Head>
-      {/* <Header /> */}
+      <Header />
       <main>{children}</main>
       <Footer />
     </>

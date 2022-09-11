@@ -69,7 +69,7 @@ export default function Countries({ countries }: PropsType) {
       </div>
       <CardGrid>
         {countries
-          .sort((a, b) => a.name.official.localeCompare(b.name.official))
+          .sort((a, b) => a.name.common.localeCompare(b.name.common))
           .map((country: CountryType) => {
             return (
               <React.Fragment key={country.cca2}>

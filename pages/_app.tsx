@@ -9,38 +9,24 @@ import DarkModeIcon from '@mui/icons-material/DarkMode';
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
 import { useEffect, useState } from 'react';
 import { lightTheme, darkTheme } from '../utils/themes';
+import CustomThemeProvider from '../components/CustomThemeProvider';
 
 function App({ Component, pageProps }: AppProps) {
   const [darkMode, setDarkMode] = useState<boolean>(false);
 
-  useEffect(() => {
-    const theme = localStorage.getItem('theme');
-    theme === 'dark' ? setDarkMode(true) : setDarkMode(false);
-  }, []);
-
-  const saveTheme = () => {
-    const theme = darkMode ? 'light' : 'dark';
-    localStorage.setItem('theme', theme);
+  const changeTheme = () => {
     setDarkMode(!darkMode);
   };
 
   return (
-    <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
-      <CssBaseline />
-      <Layout>
-        <CustomHeader>
-          <h1>Where in the world?</h1>
-          <Button
-            variant="text"
-            startIcon={darkMode ? <DarkModeIcon /> : <DarkModeOutlinedIcon />}
-            onClick={() => saveTheme()}
-          >
-            Dark Mode
-          </Button>
-        </CustomHeader>
-        <Component {...pageProps} />
-      </Layout>
-    </ThemeProvider>
+    <CustomThemeProvider value={{ darkMode, changeTheme }}>
+      <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
+        <CssBaseline />
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </ThemeProvider>
+    </CustomThemeProvider>
   );
 }
 
