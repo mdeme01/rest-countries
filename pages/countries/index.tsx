@@ -1,12 +1,10 @@
-import React, { FormEvent, useState } from 'react';
-import Country from '../../components/Country';
+import React from 'react';
 import CountryType from '../../types/CountryType';
-import styles from '../../styles/Home.module.scss';
 import axios from 'axios';
-import { useRouter } from 'next/router';
-import { CardGrid } from '../../components/StyledComponents';
-import SearchIcon from '@mui/icons-material/Search';
-import { IconButton, InputAdornment, TextField } from '@mui/material';
+import SearchField from '../../components/SearchField';
+import RegionDropdown from '../../components/RegionDropdown';
+import FilteredCountries from '../../components/FilteredCountries';
+import { Filters } from '../../components/StyledComponents';
 
 type PropsType = {
   countries: CountryType[];
@@ -19,65 +17,13 @@ export async function getServerSideProps() {
 }
 
 export default function Countries({ countries }: PropsType) {
-  const router = useRouter();
-
-  const [query, setQuery] = useState<string>('');
-
-  const filterRegion = (region: string) => {
-    const url =
-      region === 'None' ? '/countries' : `/countries/region/${region}`;
-    router.push(url);
-  };
-
-  const search = (e: FormEvent) => {
-    e.preventDefault();
-    const url = query === '' ? '/countries' : `/countries/name/${query}`;
-    router.push(url);
-  };
-
   return (
     <main>
-      <div className={styles.filters}>
-        <div>
-          <form onSubmit={(e) => search(e)}>
-            <TextField
-              placeholder="Search for a country..."
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <IconButton onClick={(e) => search(e)}>
-                      <SearchIcon />
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-              onChange={(e) => setQuery(e.target.value)}
-            />
-          </form>
-        </div>
-        <div className={styles.dropdown}>
-          <span>Filter by region: {'None'}</span>
-          <div className={styles.dropdownContent}>
-            <div onClick={() => filterRegion('Africa')}>Africa</div>
-            <div onClick={() => filterRegion('America')}>America</div>
-            <div onClick={() => filterRegion('Europe')}>Europe</div>
-            <div onClick={() => filterRegion('Asia')}>Asia</div>
-            <div onClick={() => filterRegion('Oceania')}>Oceania</div>
-            <div onClick={() => filterRegion('None')}>None</div>
-          </div>
-        </div>
-      </div>
-      <CardGrid>
-        {countries
-          .sort((a, b) => a.name.common.localeCompare(b.name.common))
-          .map((country: CountryType) => {
-            return (
-              <React.Fragment key={country.cca2}>
-                <Country data={country} />
-              </React.Fragment>
-            );
-          })}
-      </CardGrid>
+      <Filters>
+        <SearchField />
+        <RegionDropdown />
+      </Filters>
+      <FilteredCountries countries={countries} />
     </main>
   );
 }

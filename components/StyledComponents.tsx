@@ -44,3 +44,8 @@ export const CardText = styled('div')({
   alignSelf: 'center',
   paddingTop: '30px',
 });
+
+export const Filters = styled('div')({
+  display: 'flex',
+  justifyContent: 'space-between',
+});
