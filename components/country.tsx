@@ -1,6 +1,3 @@
-import Image from 'next/image';
-import Link from 'next/link';
-import styles from '../styles/Home.module.scss';
 import CountryType from '../types/CountryType';
 import { CardLink, CardText } from './StyledComponents';
 

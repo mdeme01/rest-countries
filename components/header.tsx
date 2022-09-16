@@ -1,6 +1,6 @@
 import { Button } from '@mui/material';
-import { useContext, useEffect, useState } from 'react';
-import { CustomHeader, ThemeButton } from './StyledComponents';
+import { useContext, useEffect } from 'react';
+import { CustomHeader } from './StyledComponents';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
 import {
