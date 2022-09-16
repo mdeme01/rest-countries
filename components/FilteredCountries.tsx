@@ -10,15 +10,17 @@ export default function FilteredCountries({
 }) {
   return (
     <CardGrid>
-      {countries
-        .sort((a, b) => a.name.common.localeCompare(b.name.common))
-        .map((country: CountryType) => {
-          return (
-            <React.Fragment key={country.cca2}>
-              <Country data={country} />
-            </React.Fragment>
-          );
-        })}
+      {countries.length
+        ? countries
+            .sort((a, b) => a.name.common.localeCompare(b.name.common))
+            .map((country: CountryType) => {
+              return (
+                <React.Fragment key={country.cca2}>
+                  <Country data={country} />
+                </React.Fragment>
+              );
+            })
+        : 'No results'}
     </CardGrid>
   );
 }

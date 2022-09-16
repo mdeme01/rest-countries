@@ -19,9 +19,13 @@ type ContextType = {
 
 export async function getServerSideProps(context: ContextType) {
   const name = context.params.name;
-  const res = await axios.get(`https://restcountries.com/v3.1/name/${name}`);
-  const countries: CountryType[] = await res.data;
-  return { props: { countries } };
+  try {
+    const res = await axios.get(`https://restcountries.com/v3.1/name/${name}`);
+    const countries: CountryType[] = await res.data;
+    return { props: { countries } };
+  } catch {
+    return { props: { countries: [] } };
+  }
 }
 
 export default function CountriesByName({ countries }: PropsType) {
