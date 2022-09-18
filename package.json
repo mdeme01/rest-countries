@@ -19,7 +19,8 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "swr": "^1.3.0",
-    "typescript-cookie": "^1.0.4"
+    "typescript-cookie": "^1.0.4",
+    "universal-cookie": "^4.0.4"
   },
   "devDependencies": {
     "@types/node": "^18.6.4",

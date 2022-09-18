@@ -52,37 +52,41 @@ export default function CountryDetails({
       <h2>{country.name.common}</h2>
       <div>
         Native Name:{' '}
-        {Object.values(country.name.nativeName).reverse()[0].common}
+        {!country.name.nativeName
+          ? country.name.common
+          : Object.values(country.name.nativeName).reverse()[0].common}
       </div>
-      <div>Population: {country.population}</div>
-      <div>Region: {country.region}</div>
-      <div>Sub Region: {country.subregion}</div>
-      <div>Capital: {country.capital}</div>
+      <div>Population: {country.population ?? '-'}</div>
+      <div>Region: {country.region ?? '-'}</div>
+      <div>Sub Region: {country.subregion ?? '-'}</div>
+      <div>Capital: {country.capital ?? '-'}</div>
       <div>
         Top Level Domain:{' '}
-        {country.tld !== undefined
-          ? country.tld[0]
-          : `.${country.cca2.toLowerCase()}`}
+        {!country.tld ? country.tld[0] : `.${country.cca2.toLowerCase()}`}
       </div>
       <div>
         Currencies:{' '}
-        {Object.values(country.currencies)
-          .sort()
-          .map((currency, i) => {
-            return i === Object.values(country.currencies).length - 1
-              ? currency.name + ' '
-              : currency.name + ', ';
-          })}
+        {!country.currencies
+          ? 'None'
+          : Object.values(country.currencies)
+              .sort()
+              .map((currency, i) => {
+                return i === Object.values(country.currencies).length - 1
+                  ? currency.name + ' '
+                  : currency.name + ', ';
+              })}
       </div>
       <div>
         Languages:{' '}
-        {Object.values(country.languages)
-          .sort()
-          .map((language, i) => {
-            return i === Object.values(country.languages).length - 1
-              ? language + ' '
-              : language + ', ';
-          })}
+        {!country.languages
+          ? 'None'
+          : Object.values(country.languages)
+              .sort()
+              .map((language, i) => {
+                return i === Object.values(country.languages).length - 1
+                  ? language + ' '
+                  : language + ', ';
+              })}
       </div>
       <div>Border Countries:</div>
       <div>
