@@ -1,6 +1,11 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useRouter } from 'next/router';
 import styled from '@emotion/styled';
+import { colors } from '../utils/themes';
+import {
+  CustomThemeContextType,
+  CustomThemeContext,
+} from './CustomThemeProvider';
 
 const Dropdown = styled('div')({
   position: 'relative',
@@ -9,8 +14,6 @@ const Dropdown = styled('div')({
 
 const DropdownContent = styled('div')({
   position: 'absolute',
-  backgroundColor: 'black',
-  color: 'white',
   minWidth: '160px',
   boxShadow: '0px 8px 16px 0px rgba(0, 0, 0, 0.2)',
   padding: '12px 16px',
@@ -18,13 +21,14 @@ const DropdownContent = styled('div')({
   gridTemplateRows: '1fr',
   gap: '1rem',
   borderRadius: '15px',
-  marginTop: '10px',
+  marginTop: '30px',
   cursor: 'pointer',
 });
 
 const DropdownText = styled('span')({
-  padding: '10px',
+  padding: '20px',
   textAlign: 'center',
+  borderRadius: '10px',
 });
 
 const DropdownItem = styled('div')({
@@ -36,6 +40,11 @@ export default function RegionDropdown() {
   const [region, setRegion] = useState<string>(
     (router.query.region as string) ?? 'None'
   );
+
+  const Theme: CustomThemeContextType = useContext(
+    CustomThemeContext
+  ) as unknown as CustomThemeContextType;
+
   const [dropdownVisible, setDropdownVisible] = useState<boolean>(false);
 
   const filterRegion = (region: string) => {
@@ -51,8 +60,20 @@ export default function RegionDropdown() {
       onMouseEnter={() => setDropdownVisible(true)}
       onMouseLeave={() => setDropdownVisible(false)}
     >
-      <DropdownText>Filter by region: {region}</DropdownText>
-      <DropdownContent style={{ display: dropdownVisible ? 'grid' : 'none' }}>
+      <DropdownText
+        style={{
+          backgroundColor: Theme.darkMode ? colors.darkBlue : colors.white,
+        }}
+      >
+        Filter by region: {region}
+      </DropdownText>
+      <DropdownContent
+        style={{
+          display: dropdownVisible ? 'grid' : 'none',
+          backgroundColor: Theme.darkMode ? colors.darkBlue : colors.white,
+          color: Theme.darkMode ? colors.white : colors.veryDarkBlueFG,
+        }}
+      >
         <DropdownItem onClick={() => filterRegion('Africa')}>
           Africa
         </DropdownItem>

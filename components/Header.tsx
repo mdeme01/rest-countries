@@ -8,6 +8,7 @@ import {
   CustomThemeContextType,
 } from './CustomThemeProvider';
 import { useRouter } from 'next/router';
+import { colors } from '../utils/themes';
 
 export default function Header() {
   const router = useRouter();
@@ -29,7 +30,14 @@ export default function Header() {
   }, []);
 
   return (
-    <CustomHeader>
+    <CustomHeader
+      style={{
+        backgroundColor: Theme.darkMode ? colors.darkBlue : colors.white,
+        boxShadow: Theme.darkMode
+          ? `1px 1px 1px ${colors.veryDarkBlueBG}`
+          : `1px 1px 1px ${colors.darkGray}`,
+      }}
+    >
       <h1
         style={{ cursor: 'pointer' }}
         onClick={() => router.push('/countries')}
@@ -40,6 +48,13 @@ export default function Header() {
         variant="text"
         startIcon={Theme.darkMode ? <DarkModeIcon /> : <DarkModeOutlinedIcon />}
         onClick={() => saveTheme()}
+        sx={{
+          color: Theme.darkMode ? 'white' : 'black',
+          textTransform: 'none',
+          fontFamily: 'inherit',
+          fontSize: '16px',
+          fontWeight: 'bold',
+        }}
       >
         Dark Mode
       </Button>
