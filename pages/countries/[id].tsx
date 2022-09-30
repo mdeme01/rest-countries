@@ -150,7 +150,7 @@ export default function CountryDetails({
       <SecondColumn>
         <div>
           <b>Top Level Domain:</b>{' '}
-          {country.tld[0] ?? `.${country.cca2.toLowerCase()}`}
+          {country.tld ? country.tld[0] : `.${country.cca2.toLowerCase()}`}
         </div>
         <div>
           <b>Currencies:</b>{' '}
