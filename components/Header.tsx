@@ -1,14 +1,35 @@
-import { Button } from '@mui/material';
+import { useRouter } from 'next/router';
+import { Button, styled } from '@mui/material';
 import { useContext, useEffect } from 'react';
-import { CustomHeader } from './StyledComponents';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
 import {
   CustomThemeContext,
   CustomThemeContextType,
 } from './CustomThemeProvider';
-import { useRouter } from 'next/router';
-import { colors } from '../utils/themes';
+
+export const CustomHeader = styled('header')(({ theme }) => ({
+  backgroundColor: theme.backgroundColor.main,
+  boxShadow: `1px 1px 1px ${theme.boxShadowColor.main}`,
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  marginBottom: '50px',
+  padding: '20px 80px',
+  width: '100%',
+}));
+
+export const Title = styled('h1')({
+  cursor: 'pointer',
+});
+
+export const StyleButton = styled(Button)({
+  color: 'primary',
+  textTransform: 'none',
+  fontFamily: 'inherit',
+  fontSize: '16px',
+  fontWeight: 'bold',
+});
 
 export default function Header() {
   const router = useRouter();
@@ -30,34 +51,17 @@ export default function Header() {
   }, []);
 
   return (
-    <CustomHeader
-      style={{
-        backgroundColor: Theme.darkMode ? colors.darkBlue : colors.white,
-        boxShadow: Theme.darkMode
-          ? `1px 1px 1px ${colors.veryDarkBlueBG}`
-          : `1px 1px 1px ${colors.darkGray}`,
-      }}
-    >
-      <h1
-        style={{ cursor: 'pointer' }}
-        onClick={() => router.push('/countries')}
-      >
+    <CustomHeader>
+      <Title onClick={() => router.push('/countries')}>
         Where in the world?
-      </h1>
-      <Button
+      </Title>
+      <StyleButton
         variant="text"
         startIcon={Theme.darkMode ? <DarkModeIcon /> : <DarkModeOutlinedIcon />}
         onClick={() => saveTheme()}
-        sx={{
-          color: Theme.darkMode ? 'white' : 'black',
-          textTransform: 'none',
-          fontFamily: 'inherit',
-          fontSize: '16px',
-          fontWeight: 'bold',
-        }}
       >
         Dark Mode
-      </Button>
+      </StyleButton>
     </CustomHeader>
   );
 }

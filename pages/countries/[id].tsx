@@ -1,14 +1,9 @@
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import CountryType from '../../types/CountryType';
 import axios from 'axios';
-import React, { useContext } from 'react';
-import styled from '@emotion/styled';
-import { colors } from '../../utils/themes';
-import {
-  CustomThemeContextType,
-  CustomThemeContext,
-} from '../../components/CustomThemeProvider';
+import React from 'react';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { Button, styled } from '@mui/material';
 
 type PropsType = {
   country: CountryType;
@@ -32,16 +27,6 @@ const MainContainer = styled('div')({
   `,
   gap: '1rem',
   placeContent: 'center',
-});
-
-const BackButton = styled('button')({
-  padding: '10px 20px',
-  border: '0',
-  borderRadius: '5px',
-  cursor: 'pointer',
-  gridArea: 'back',
-  width: '5rem',
-  height: '3rem',
 });
 
 const Flag = styled('img')({
@@ -69,19 +54,34 @@ const SecondColumn = styled('div')({
   gridArea: 'secondcol',
 });
 
-const BorderCountry = styled('button')({
-  padding: '10px 20px',
-  border: '0',
-  borderRadius: '5px',
-  cursor: 'pointer',
-});
-
 const BorderCountries = styled('div')({
   display: 'flex',
   gap: '1rem',
   alignItems: 'center',
   gridArea: 'bcountries',
 });
+
+const BorderCountry = styled(Button)(({ theme }) => ({
+  backgroundColor: theme.backgroundColor.main,
+  boxShadow: `1px 1px 1px ${theme.boxShadowColor.main}`,
+  textTransform: 'none',
+  fontFamily: 'inherit',
+  padding: '10px 20px',
+  border: '0',
+  borderRadius: '5px',
+  cursor: 'pointer',
+}));
+
+const CustomButton = styled(Button)(({ theme }) => ({
+  backgroundColor: theme.backgroundColor.main,
+  boxShadow: `1px 1px 1px ${theme.boxShadowColor.main}`,
+  textTransform: 'none',
+  fontFamily: 'inherit',
+  gridArea: 'back',
+  width: '6rem',
+  height: '2rem',
+  padding: '20px 40px',
+}));
 
 export async function getServerSideProps(context: ContextType) {
   const res = await axios.get(
@@ -114,24 +114,17 @@ export default function CountryDetails({
 }: PropsType) {
   const router = useRouter();
 
-  const Theme: CustomThemeContextType = useContext(
-    CustomThemeContext
-  ) as unknown as CustomThemeContextType;
-
   return (
     <MainContainer>
-      <BackButton
+      <CustomButton
+        variant="text"
+        color="primary"
+        startIcon={<ArrowBackIcon />}
         onClick={() => router.back()}
-        style={{
-          backgroundColor: Theme.darkMode ? colors.darkBlue : colors.white,
-          boxShadow: Theme.darkMode
-            ? `1px 1px 1px ${colors.veryDarkBlueBG}`
-            : `1px 1px 1px ${colors.darkGray}`,
-          color: Theme.darkMode ? 'white' : 'black',
-        }}
       >
         Back
-      </BackButton>
+      </CustomButton>
+
       <Flag width="600" height="450" src={country.flags.png} alt="flag" />
       <Name>{country.name.common}</Name>
       <FirstColumn>
@@ -157,7 +150,7 @@ export default function CountryDetails({
       <SecondColumn>
         <div>
           <b>Top Level Domain:</b>{' '}
-          {country.tld ? country.tld[0] : `.${country.cca2.toLowerCase()}`}
+          {country.tld[0] ?? `.${country.cca2.toLowerCase()}`}
         </div>
         <div>
           <b>Currencies:</b>{' '}
@@ -196,15 +189,6 @@ export default function CountryDetails({
                   <BorderCountry
                     key={country.cca2}
                     onClick={() => router.push(`/countries/${country.cca2}`)}
-                    style={{
-                      backgroundColor: Theme.darkMode
-                        ? colors.darkBlue
-                        : colors.white,
-                      boxShadow: Theme.darkMode
-                        ? `1px 1px 1px ${colors.veryDarkBlueBG}`
-                        : `1px 1px 1px ${colors.darkGray}`,
-                      color: Theme.darkMode ? 'white' : 'black',
-                    }}
                   >
                     {country.name.common}
                   </BorderCountry>

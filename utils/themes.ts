@@ -16,8 +16,19 @@ export const lightTheme = createTheme({
     },
     text: {
       primary: colors.veryDarkBlueFG,
-      secondary: colors.darkGray,
     },
+    primary: {
+      main: colors.veryDarkBlueFG,
+    },
+  },
+  backgroundColor: {
+    main: colors.veryLightGray,
+  },
+  textColor: {
+    main: colors.veryDarkBlueFG,
+  },
+  boxShadowColor: {
+    main: colors.darkGray,
   },
 });
 
@@ -28,7 +39,18 @@ export const darkTheme = createTheme({
     },
     text: {
       primary: colors.white,
-      secondary: colors.darkBlue,
     },
+    primary: {
+      main: colors.white,
+    },
+  },
+  backgroundColor: {
+    main: colors.darkBlue,
+  },
+  textColor: {
+    main: colors.white,
+  },
+  boxShadowColor: {
+    main: colors.veryDarkBlueBG,
   },
 });
