@@ -22,7 +22,7 @@ export const lightTheme = createTheme({
     },
   },
   backgroundColor: {
-    main: colors.veryLightGray,
+    main: colors.white,
   },
   textColor: {
     main: colors.veryDarkBlueFG,

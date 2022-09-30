@@ -1,18 +1,14 @@
-import { useContext, useState } from 'react';
 import { useRouter } from 'next/router';
-import styled from '@emotion/styled';
-import { colors } from '../utils/themes';
-import {
-  CustomThemeContextType,
-  CustomThemeContext,
-} from './CustomThemeProvider';
+import { styled } from '@mui/material';
+import { useState } from 'react';
 
 const Dropdown = styled('div')({
   position: 'relative',
   display: 'inline-block',
 });
 
-const DropdownContent = styled('div')({
+const DropdownContent = styled('div')(({ theme }) => ({
+  backgroundColor: theme.backgroundColor.main,
   position: 'absolute',
   minWidth: '160px',
   boxShadow: '0px 8px 16px 0px rgba(0, 0, 0, 0.2)',
@@ -20,16 +16,17 @@ const DropdownContent = styled('div')({
   zIndex: '1',
   gridTemplateRows: '1fr',
   gap: '1rem',
-  borderRadius: '15px',
+  borderRadius: '5px',
   marginTop: '30px',
   cursor: 'pointer',
-});
+}));
 
-const DropdownText = styled('span')({
+const DropdownText = styled('span')(({ theme }) => ({
+  backgroundColor: theme.backgroundColor.main,
   padding: '20px',
   textAlign: 'center',
-  borderRadius: '10px',
-});
+  borderRadius: '5px',
+}));
 
 const DropdownItem = styled('div')({
   placeSelf: 'start',
@@ -41,11 +38,9 @@ export default function RegionDropdown() {
     (router.query.region as string) ?? 'None'
   );
 
-  const Theme: CustomThemeContextType = useContext(
-    CustomThemeContext
-  ) as unknown as CustomThemeContextType;
-
   const [dropdownVisible, setDropdownVisible] = useState<boolean>(false);
+
+  const regions = ['Africa', 'America', 'Europe', 'Asia', 'Oceania', 'None'];
 
   const filterRegion = (region: string) => {
     setRegion(region);
@@ -60,34 +55,17 @@ export default function RegionDropdown() {
       onMouseEnter={() => setDropdownVisible(true)}
       onMouseLeave={() => setDropdownVisible(false)}
     >
-      <DropdownText
-        style={{
-          backgroundColor: Theme.darkMode ? colors.darkBlue : colors.white,
-        }}
-      >
-        Filter by region: {region}
-      </DropdownText>
+      <DropdownText>Filter by region: {region}</DropdownText>
       <DropdownContent
         style={{
           display: dropdownVisible ? 'grid' : 'none',
-          backgroundColor: Theme.darkMode ? colors.darkBlue : colors.white,
-          color: Theme.darkMode ? colors.white : colors.veryDarkBlueFG,
         }}
       >
-        <DropdownItem onClick={() => filterRegion('Africa')}>
-          Africa
-        </DropdownItem>
-        <DropdownItem onClick={() => filterRegion('America')}>
-          America
-        </DropdownItem>
-        <DropdownItem onClick={() => filterRegion('Europe')}>
-          Europe
-        </DropdownItem>
-        <DropdownItem onClick={() => filterRegion('Asia')}>Asia</DropdownItem>
-        <DropdownItem onClick={() => filterRegion('Oceania')}>
-          Oceania
-        </DropdownItem>
-        <DropdownItem onClick={() => filterRegion('None')}>None</DropdownItem>
+        {regions.map((region) => (
+          <DropdownItem key={region} onClick={() => filterRegion(region)}>
+            {region}
+          </DropdownItem>
+        ))}
       </DropdownContent>
     </Dropdown>
   );
