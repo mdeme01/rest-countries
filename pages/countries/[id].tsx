@@ -2,7 +2,13 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import CountryType from '../../types/CountryType';
 import axios from 'axios';
-import React from 'react';
+import React, { useContext } from 'react';
+import styled from '@emotion/styled';
+import { colors } from '../../utils/themes';
+import {
+  CustomThemeContextType,
+  CustomThemeContext,
+} from '../../components/CustomThemeProvider';
 
 type PropsType = {
   country: CountryType;
@@ -14,6 +20,68 @@ type ContextType = {
     id: string;
   };
 };
+
+const MainContainer = styled('div')({
+  display: 'grid',
+  gridTemplate: `
+    'back . .' 1fr
+    'flag name name' 0.5fr
+    'flag firstcol secondcol' 1fr
+    'flag bcountries bcountries' 1fr
+    / 1fr 0.8fr 1fr
+  `,
+  gap: '1rem',
+  placeContent: 'center',
+});
+
+const BackButton = styled('button')({
+  padding: '10px 20px',
+  border: '0',
+  borderRadius: '5px',
+  cursor: 'pointer',
+  gridArea: 'back',
+  width: '5rem',
+  height: '3rem',
+});
+
+const Flag = styled('img')({
+  gridArea: 'flag',
+  marginRight: '5rem',
+});
+
+const Name = styled('h2')({
+  gridArea: 'name',
+  fontSize: '2rem',
+  alignSelf: 'center',
+});
+
+const FirstColumn = styled('div')({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '0.5rem',
+  gridArea: 'firstcol',
+});
+
+const SecondColumn = styled('div')({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '0.5rem',
+  gridArea: 'secondcol',
+});
+
+const BorderCountry = styled('button')({
+  padding: '10px 20px',
+  border: '0',
+  borderRadius: '5px',
+  cursor: 'pointer',
+});
+
+const BorderCountries = styled('div')({
+  display: 'flex',
+  gap: '1rem',
+  alignItems: 'center',
+  gridArea: 'bcountries',
+});
 
 export async function getServerSideProps(context: ContextType) {
   const res = await axios.get(
@@ -46,66 +114,104 @@ export default function CountryDetails({
 }: PropsType) {
   const router = useRouter();
 
+  const Theme: CustomThemeContextType = useContext(
+    CustomThemeContext
+  ) as unknown as CustomThemeContextType;
+
   return (
-    <main>
-      <Image width="300" height="150" src={country.flags.png} alt="flag" />
-      <h2>{country.name.common}</h2>
-      <div>
-        Native Name:{' '}
-        {!country.name.nativeName
-          ? country.name.common
-          : Object.values(country.name.nativeName).reverse()[0].common}
-      </div>
-      <div>Population: {country.population ?? '-'}</div>
-      <div>Region: {country.region ?? '-'}</div>
-      <div>Sub Region: {country.subregion ?? '-'}</div>
-      <div>Capital: {country.capital ?? '-'}</div>
-      <div>
-        Top Level Domain:{' '}
-        {!country.tld ? country.tld[0] : `.${country.cca2.toLowerCase()}`}
-      </div>
-      <div>
-        Currencies:{' '}
-        {!country.currencies
-          ? 'None'
-          : Object.values(country.currencies)
-              .sort()
-              .map((currency, i) => {
-                return i === Object.values(country.currencies).length - 1
-                  ? currency.name + ' '
-                  : currency.name + ', ';
-              })}
-      </div>
-      <div>
-        Languages:{' '}
-        {!country.languages
-          ? 'None'
-          : Object.values(country.languages)
-              .sort()
-              .map((language, i) => {
-                return i === Object.values(country.languages).length - 1
-                  ? language + ' '
-                  : language + ', ';
-              })}
-      </div>
-      <div>Border Countries:</div>
-      <div>
+    <MainContainer>
+      <BackButton
+        onClick={() => router.back()}
+        style={{
+          backgroundColor: Theme.darkMode ? colors.darkBlue : colors.white,
+          boxShadow: Theme.darkMode
+            ? `1px 1px 1px ${colors.veryDarkBlueBG}`
+            : `1px 1px 1px ${colors.darkGray}`,
+          color: Theme.darkMode ? 'white' : 'black',
+        }}
+      >
+        Back
+      </BackButton>
+      <Flag width="600" height="450" src={country.flags.png} alt="flag" />
+      <Name>{country.name.common}</Name>
+      <FirstColumn>
+        <div>
+          <b>Native Name:</b>{' '}
+          {!country.name.nativeName
+            ? country.name.common
+            : Object.values(country.name.nativeName).reverse()[0].common}
+        </div>
+        <div>
+          <b>Population:</b> {country.population.toLocaleString() ?? '-'}
+        </div>
+        <div>
+          <b>Region:</b> {country.region ?? '-'}
+        </div>
+        <div>
+          <b>Sub Region:</b> {country.subregion ?? '-'}
+        </div>
+        <div>
+          <b>Capital:</b> {country.capital ?? '-'}
+        </div>
+      </FirstColumn>
+      <SecondColumn>
+        <div>
+          <b>Top Level Domain:</b>{' '}
+          {country.tld ? country.tld[0] : `.${country.cca2.toLowerCase()}`}
+        </div>
+        <div>
+          <b>Currencies:</b>{' '}
+          {!country.currencies
+            ? 'None'
+            : Object.values(country.currencies)
+                .sort()
+                .map((currency, i) => {
+                  return i === Object.values(country.currencies).length - 1
+                    ? currency.name + ' '
+                    : currency.name + ', ';
+                })}
+        </div>
+        <div>
+          <b>Languages:</b>{' '}
+          {!country.languages
+            ? 'None'
+            : Object.values(country.languages)
+                .sort()
+                .map((language, i) => {
+                  return i === Object.values(country.languages).length - 1
+                    ? language + ' '
+                    : language + ', ';
+                })}
+        </div>
+      </SecondColumn>
+      <BorderCountries>
+        <div>
+          <b>Border Countries:</b>
+        </div>
         {borderCountries.length !== 0
           ? borderCountries
               .sort((a, b) => a.name.common.localeCompare(b.name.common))
               .map((country: CountryType) => {
                 return (
-                  <button
+                  <BorderCountry
                     key={country.cca2}
                     onClick={() => router.push(`/countries/${country.cca2}`)}
+                    style={{
+                      backgroundColor: Theme.darkMode
+                        ? colors.darkBlue
+                        : colors.white,
+                      boxShadow: Theme.darkMode
+                        ? `1px 1px 1px ${colors.veryDarkBlueBG}`
+                        : `1px 1px 1px ${colors.darkGray}`,
+                      color: Theme.darkMode ? 'white' : 'black',
+                    }}
                   >
                     {country.name.common}
-                  </button>
+                  </BorderCountry>
                 );
               })
           : 'None'}
-      </div>
-      <button onClick={() => router.back()}>Back</button>
-    </main>
+      </BorderCountries>
+    </MainContainer>
   );
 }
