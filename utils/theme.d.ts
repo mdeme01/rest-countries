@@ -8,6 +8,7 @@ declare module '@mui/material/styles' {
     };
     textColor?: {
       main?: string;
+      hover?: string;
     };
     boxShadowColor?: {
       main?: string;
@@ -19,6 +20,7 @@ declare module '@mui/material/styles' {
     };
     textColor?: {
       main?: React.CSSProperties['color'];
+      hover?: React.CSSProperties['color'];
     };
     boxShadowColor?: {
       main?: React.CSSProperties['color'];

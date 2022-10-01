@@ -1,3 +1,4 @@
+import { blue } from '@mui/material/colors';
 import { createTheme } from '@mui/material/styles';
 
 export const colors = {
@@ -26,6 +27,7 @@ export const lightTheme = createTheme({
   },
   textColor: {
     main: colors.veryDarkBlueFG,
+    hover: blue[500],
   },
   boxShadowColor: {
     main: colors.darkGray,
@@ -49,6 +51,7 @@ export const darkTheme = createTheme({
   },
   textColor: {
     main: colors.white,
+    hover: blue[300],
   },
   boxShadowColor: {
     main: colors.veryDarkBlueBG,
