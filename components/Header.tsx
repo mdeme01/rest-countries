@@ -17,19 +17,27 @@ export const CustomHeader = styled('header')(({ theme }) => ({
   marginBottom: '50px',
   padding: '20px 80px',
   width: '100%',
+  fontSize: '0.9rem',
+  [theme.breakpoints.down('sm')]: {
+    fontSize: '0.5rem',
+    padding: '20px 10px',
+  },
 }));
 
 export const Title = styled('h1')({
   cursor: 'pointer',
 });
 
-export const StyleButton = styled(Button)({
+export const StyleButton = styled(Button)(({ theme }) => ({
   color: 'primary',
   textTransform: 'none',
   fontFamily: 'inherit',
-  fontSize: '16px',
   fontWeight: 'bold',
-});
+  fontSize: '1rem',
+  [theme.breakpoints.down('sm')]: {
+    fontSize: '0.8rem',
+  },
+}));
 
 export default function Header() {
   const router = useRouter();

@@ -16,22 +16,34 @@ type ContextType = {
   };
 };
 
-const MainContainer = styled('div')({
+const MainContainer = styled('div')(({ theme }) => ({
   display: 'grid',
-  gridTemplate: `
-    'back . .' 1fr
-    'flag name name' 0.5fr
-    'flag firstcol secondcol' 1fr
-    'flag bcountries bcountries' 1fr
-    / 1fr 0.8fr 1fr
-  `,
-  gap: '1rem',
+  gap: '3rem',
   placeContent: 'center',
-});
+  gridTemplate: `
+    'back . .' auto
+    'flag name name' auto
+    'flag firstcol secondcol' auto
+    'flag bcountries bcountries' auto
+    / 320px auto 1fr
+  `,
+  [theme.breakpoints.down('md')]: {
+    gridTemplate: `
+      'back' auto
+      'flag' auto
+      'name' auto
+      'firstcol' auto
+      'secondcol' auto
+      'bcountries' auto
+      / auto
+    `,
+  },
+}));
 
 const Flag = styled('img')({
   gridArea: 'flag',
-  marginRight: '5rem',
+  width: '100%',
+  maxWidth: '320px',
 });
 
 const Name = styled('h2')({
@@ -41,23 +53,20 @@ const Name = styled('h2')({
 });
 
 const FirstColumn = styled('div')({
+  gridArea: 'firstcol',
   display: 'flex',
   flexDirection: 'column',
   gap: '0.5rem',
-  gridArea: 'firstcol',
 });
 
 const SecondColumn = styled('div')({
+  gridArea: 'secondcol',
   display: 'flex',
   flexDirection: 'column',
   gap: '0.5rem',
-  gridArea: 'secondcol',
 });
 
 const BorderCountries = styled('div')({
-  display: 'flex',
-  gap: '1rem',
-  alignItems: 'center',
   gridArea: 'bcountries',
 });
 
@@ -66,7 +75,8 @@ const BorderCountry = styled(Button)(({ theme }) => ({
   boxShadow: `1px 1px 1px ${theme.boxShadowColor.main}`,
   textTransform: 'none',
   fontFamily: 'inherit',
-  padding: '10px 20px',
+  padding: '5px 30px',
+  margin: '10px 10px 0 0',
   border: '0',
   borderRadius: '5px',
   cursor: 'pointer',
@@ -80,7 +90,8 @@ const CustomButton = styled(Button)(({ theme }) => ({
   gridArea: 'back',
   width: '6rem',
   height: '2rem',
-  padding: '20px 40px',
+  padding: '20px 60px',
+  alignSelf: 'center',
 }));
 
 export async function getServerSideProps(context: ContextType) {
@@ -125,7 +136,7 @@ export default function CountryDetails({
         Back
       </CustomButton>
 
-      <Flag width="600" height="450" src={country.flags.png} alt="flag" />
+      <Flag src={country.flags.png} alt="flag" />
       <Name>{country.name.common}</Name>
       <FirstColumn>
         <div>
