@@ -1,22 +1,22 @@
-import styled from '@emotion/styled';
+import { styled } from '@mui/material';
 
-export const CustomHeader = styled('header')({
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  marginBottom: '50px',
-  padding: '20px 80px',
-  width: '100%',
-});
-
-export const ThemeButton = styled('button')({
-  backgroundColor: 'unset',
-  border: 'none',
-  cursor: 'pointer',
+export const MainContainer = styled('main')(({ theme }) => ({
   display: 'grid',
-  gridTemplateColumns: 'repeat(2, 1fr)',
-  placeContent: 'center',
-});
+  gap: '3rem',
+  gridTemplate: `
+    'search . regions' auto
+    'countries countries countries' auto
+    / auto auto
+  `,
+  [theme.breakpoints.down('md')]: {
+    gridTemplate: `
+    'search' auto
+    'regions' auto
+    'countries' auto
+    / auto
+  `,
+  },
+}));
 
 export const CardGrid = styled('div')({
   display: 'grid',
@@ -24,19 +24,19 @@ export const CardGrid = styled('div')({
   gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
   marginTop: '2rem',
   placeContent: 'center',
+  gridArea: 'countries',
 });
 
 export const CardLink = styled('a')({
-  width: '320px',
+  display: 'grid',
+  gridTemplateColumns: '1fr',
+  width: '100%',
+  maxWidth: '320px',
   height: '400px',
-  color: 'unset',
-  textDecoration: 'none',
   borderRadius: '10px',
   backgroundRepeat: 'no-repeat',
   backgroundSize: '320px 200px',
   backgroundPosition: 'top center',
-  display: 'grid',
-  gridTemplateColumns: '1fr',
 });
 
 export const CardText = styled('div')({
@@ -45,9 +45,4 @@ export const CardText = styled('div')({
   alignSelf: 'center',
   paddingLeft: '20px',
   paddingTop: '30px',
-});
-
-export const Filters = styled('div')({
-  display: 'flex',
-  justifyContent: 'space-between',
 });

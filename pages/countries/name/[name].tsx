@@ -4,7 +4,7 @@ import CountryType from '../../../types/CountryType';
 import SearchField from '../../../components/SearchField';
 import RegionDropdown from '../../../components/RegionDropdown';
 import FilteredCountries from '../../../components/FilteredCountries';
-import { Filters } from '../../../components/StyledComponents';
+import { MainContainer } from '../../../components/StyledComponents';
 
 type PropsType = {
   countries: CountryType[];
@@ -30,12 +30,10 @@ export async function getServerSideProps(context: ContextType) {
 
 export default function CountriesByName({ countries }: PropsType) {
   return (
-    <main>
-      <Filters>
-        <SearchField />
-        <RegionDropdown />
-      </Filters>
+    <MainContainer>
+      <SearchField />
+      <RegionDropdown />
       <FilteredCountries countries={countries} />
-    </main>
+    </MainContainer>
   );
 }

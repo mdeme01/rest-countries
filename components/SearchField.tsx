@@ -3,6 +3,15 @@ import { useRouter } from 'next/router';
 import { TextField, InputAdornment, IconButton, styled } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 
+const SearchForm = styled('form')(({ theme }) => ({
+  gridArea: 'search',
+  justifySelf: 'start',
+  alignSelf: 'center',
+  [theme.breakpoints.down('md')]: {
+    justifySelf: 'center',
+  },
+}));
+
 const CustomInput = styled(TextField)(({ theme }) => ({
   backgroundColor: theme.backgroundColor.main,
   // boxShadow: `1px 1px 1px 2px ${theme.boxShadowColor.main}, -1px -1px 1px 2px ${theme.boxShadowColor.main}`,
@@ -23,7 +32,7 @@ export default function SearchField() {
   };
 
   return (
-    <form onSubmit={(e) => search(e)}>
+    <SearchForm onSubmit={(e) => search(e)}>
       <CustomInput
         placeholder="Search for a country..."
         defaultValue={query}
@@ -40,6 +49,6 @@ export default function SearchField() {
         }}
         onChange={(e) => setQuery(e.target.value)}
       />
-    </form>
+    </SearchForm>
   );
 }

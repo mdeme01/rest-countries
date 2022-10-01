@@ -2,10 +2,16 @@ import { useRouter } from 'next/router';
 import { styled } from '@mui/material';
 import { useState } from 'react';
 
-const Dropdown = styled('div')({
+const Dropdown = styled('div')(({ theme }) => ({
   position: 'relative',
   display: 'inline-block',
-});
+  gridArea: 'regions',
+  alignSelf: 'center',
+  justifySelf: 'end',
+  [theme.breakpoints.down('md')]: {
+    justifySelf: 'center',
+  },
+}));
 
 const DropdownContent = styled('div')(({ theme }) => ({
   backgroundColor: theme.backgroundColor.main,
