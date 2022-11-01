@@ -26,7 +26,7 @@ export default function Country(props: { data: CountryType }) {
       <CardText>
         <h2>{props.data.name.common}</h2>
         <div>
-          <b>Population:</b> {props.data.population}
+          <b>Population:</b> {props.data.population.toLocaleString()}
         </div>
         <div>
           <b>Region:</b> {props.data.region}
